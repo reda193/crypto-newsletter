@@ -9,7 +9,7 @@ class NewsletterController extends Controller
 {
     public function showSignupForm()
     {
-        return view('signup');
+        return view('newsletter.signup');
     }
 
     public function reloadCaptcha()
@@ -42,16 +42,19 @@ class NewsletterController extends Controller
 
     public function showSuccess()
     {
-        return view('success');
+        return view('newsletter.success');
     }
 
     public function unsubscribe($email)
     {
+        $email = urldecode($email);
         $subscriber = Subscriber::where('email', $email)->first();
         
         if ($subscriber) {
+            $name = $subscriber->name;
             $subscriber->delete();
-            return view('unsubscribe');
+            
+            return view('newsletter.unsubscribe', ['name' => $name, 'email' => $email]);
         }
         
         return redirect('/signup');
