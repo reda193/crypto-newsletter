@@ -17,5 +17,3 @@ Route::prefix('newsletter')->group(function () {
     Route::get('/unsubscribe/{email}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
 });
 
-// AJAX route for captcha reload
-Route::get('/reload-captcha', [NewsletterController::class, 'reloadCaptcha'])->name('captcha.reload');

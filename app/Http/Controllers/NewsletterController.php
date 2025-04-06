@@ -12,21 +12,13 @@ class NewsletterController extends Controller
         return view('newsletter.signup');
     }
 
-    public function reloadCaptcha()
-    {
-        return response()->json(['captcha' => captcha_img()]);
-    }
-
     public function processSignup(Request $request)
     {
         $validated = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:subscribers,email',
             'frequency' => 'required|in:minute,hour,daily',
-            'percentage_alert' => 'required|numeric|min:1',
-            'captcha' => 'required|captcha'
-        ], [
-            'captcha.captcha' => 'Invalid captcha. Please try again.',
+            'percentage_alert' => 'required|numeric|min:1'
         ]);
 
         $subscriber = new Subscriber();
@@ -34,6 +26,15 @@ class NewsletterController extends Controller
         $subscriber->email = $validated['email'];
         $subscriber->frequency = $validated['frequency'];
         $subscriber->btc = $request->has('btc');
+        $subscriber->eth = $request->has('eth');
+        $subscriber->doge = $request->has('doge');
+        $subscriber->xrp = $request->has('xrp');
+        $subscriber->ltc = $request->has('ltc');
+        $subscriber->sol = $request->has('sol');
+        $subscriber->ada = $request->has('ada');
+        $subscriber->avax = $request->has('avax');
+        $subscriber->dot = $request->has('dot');
+        $subscriber->matic = $request->has('matic');
         $subscriber->percentage_alert = $validated['percentage_alert'];
         $subscriber->save();
 

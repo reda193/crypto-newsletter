@@ -96,28 +96,7 @@
         </div>
         
         <div class="form-group">
-            <label for="captcha">Captcha:</label>
-            <div>
-                <span id="captcha_image">{!! captcha_img() !!}</span>
-                <button type="button" id="reload">Reload</button>
-            </div>
-            <input type="text" id="captcha" name="captcha" required>
-        </div>
-        
-        <div class="form-group">
             <button type="submit">Sign Up</button>
         </div>
     </form>
-    
-    <script>
-        document.getElementById('reload').addEventListener('click', function() {
-            fetch('/reload-captcha', {
-                method: 'GET',
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('captcha_image').innerHTML = data.captcha;
-            });
-        });
-    </script>
 @endsection
