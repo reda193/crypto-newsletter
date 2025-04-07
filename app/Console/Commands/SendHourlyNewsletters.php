@@ -9,11 +9,39 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * Class SendHourlyNewsletters
+ * @package App\Console\Commands
+ * 
+ * This command sends cryptocurrency newsletters to subscribers who have
+ * selected 'hour' frequency. It fetches current cryptocurrency data
+ * from the CoinLore API and filters the data based on each subscriber's
+ * cryptocurrency preferences before sending the newsletter.
+ */
 class SendHourlyNewsletters extends Command
 {
+    /**
+     * The console command signature.
+     *
+     * @var string
+     */
     protected $signature = 'newsletter:hour';
+
+    /**
+     * The console command description.
+     *
+     * @var string
+     */
     protected $description = 'Send newsletters to hourly subscribers';
 
+    /**
+     * Execute the console command.
+     * 
+     * Fetches all hourly subscribers, retrieves current cryptocurrency data,
+     * and sends personalized newsletters based on subscriber preferences.
+     *
+     * @return int Command exit code (0 = success, 1 = error)
+     */
     public function handle()
     {
         // Get subscribers with 'hour' frequency
@@ -61,6 +89,13 @@ class SendHourlyNewsletters extends Command
         }
     }
     
+    /**
+     * Filter cryptocurrency data based on subscriber preferences.
+     *
+     * @param Subscriber $subscriber The subscriber model
+     * @param array $allCryptoData All cryptocurrency data from API
+     * @return array Selected cryptocurrencies for this subscriber
+     */
     private function getSelectedCryptos($subscriber, $allCryptoData)
     {
         // Extract cryptos the user has selected

@@ -10,15 +10,37 @@ use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Address;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class CryptoNewsletter
+ * @package App\Mail
+ * 
+ * This mailable class is responsible for sending cryptocurrency newsletters
+ * to subscribers. It contains subscriber information and cryptocurrency data
+ * for display in the email template.
+ */
 class CryptoNewsletter extends Mailable
 {
     use Queueable, SerializesModels;
 
+    /**
+     * The subscriber receiving the newsletter.
+     *
+     * @var Subscriber
+     */
     public $subscriber;
+
+    /**
+     * Array of cryptocurrency data to be included in the newsletter.
+     *
+     * @var array
+     */
     public $cryptos;
 
     /**
      * Create a new message instance.
+     *
+     * @param Subscriber $subscriber The subscriber model
+     * @param array $cryptos Array of cryptocurrency data
      */
     public function __construct(Subscriber $subscriber, array $cryptos)
     {
@@ -28,6 +50,10 @@ class CryptoNewsletter extends Mailable
 
     /**
      * Get the message envelope.
+     * 
+     * Defines the email sender and subject line.
+     *
+     * @return Envelope
      */
     public function envelope(): Envelope
     {
@@ -42,6 +68,10 @@ class CryptoNewsletter extends Mailable
 
     /**
      * Get the message content definition.
+     * 
+     * Specifies the view to be used for the email content.
+     *
+     * @return Content
      */
     public function content(): Content
     {
@@ -52,6 +82,10 @@ class CryptoNewsletter extends Mailable
 
     /**
      * Get the attachments for the message.
+     * 
+     * No attachments are included in the cryptocurrency newsletter.
+     *
+     * @return array
      */
     public function attachments(): array
     {
