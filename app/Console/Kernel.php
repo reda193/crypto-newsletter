@@ -16,6 +16,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('newsletter:minute')->everyMinute();
         $schedule->command('newsletter:hour')->hourly();
         $schedule->command('newsletter:daily')->dailyAt('00:00');
+        $schedule->command('scheduler:test')->everyMinute();
     }
 
     /**

@@ -16,7 +16,7 @@
 <body>
     <h1>Your Cryptocurrency Update</h1>
     
-    <p>Hello Test User,</p>
+    <p>Hello {{ $subscriber->name }},</p>
     
     <p>Here's your latest cryptocurrency update:</p>
     
@@ -30,44 +30,32 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="positive">
-                <td>BTC</td>
-                <td>Bitcoin</td>
-                <td>$50,000.00</td>
-                <td>2.5%</td>
-            </tr>
-            <tr class="negative">
-                <td>ETH</td>
-                <td>Ethereum</td>
-                <td>$3,000.00</td>
-                <td>-1.5%</td>
-            </tr>
-            <tr>
-                <td>SOL</td>
-                <td>Solana</td>
-                <td>$180.75</td>
-                <td>0.8%</td>
-            </tr>
-            <tr class="positive">
-                <td>ADA</td>
-                <td>Cardano</td>
-                <td>$2.15</td>
-                <td>3.2%</td>
-            </tr>
-            <tr class="negative">
-                <td>DOT</td>
-                <td>Polkadot</td>
-                <td>$28.33</td>
-                <td>-2.1%</td>
-            </tr>
+            @foreach($cryptos as $crypto)
+                @php
+                    $hourChange = isset($crypto['percent_change_1h']) ? (float) $crypto['percent_change_1h'] : 0;
+                    $alertThreshold = $subscriber->percentage_alert;
+                    $class = '';
+                    
+                    if (abs($hourChange) >= $alertThreshold) {
+                        $class = $hourChange > 0 ? 'positive' : 'negative';
+                    }
+                @endphp
+                
+                <tr class="{{ $class }}">
+                    <td>{{ $crypto['symbol'] }}</td>
+                    <td>{{ $crypto['name'] }}</td>
+                    <td>${{ number_format((float) $crypto['price_usd'], 2) }}</td>
+                    <td>{{ $crypto['percent_change_1h'] ?? '0' }}%</td>
+                </tr>
+            @endforeach
         </tbody>
     </table>
     
     <div class="footer">
         <p>
-            This newsletter was sent to mohamed.reda33@outlook.com at your requested frequency.
+            This newsletter was sent to {{ $subscriber->email }} at your requested frequency.
             <br>
-            To unsubscribe from this newsletter, <a href="http://localhost/unsubscribe/mohamed.reda33%40outlook.com">click here</a>.
+            To unsubscribe from this newsletter, <a href="{{ url('/newsletter/unsubscribe/' . urlencode($subscriber->email)) }}">click here</a>.
         </p>
     </div>
 </body>
