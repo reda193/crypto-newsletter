@@ -15,6 +15,9 @@ Route::prefix('newsletter')->group(function () {
     Route::get('/signup', [NewsletterController::class, 'showSignupForm'])->name('signup.form');
     Route::post('/signup', [NewsletterController::class, 'processSignup'])->name('signup.process');
     Route::get('/success', [NewsletterController::class, 'showSuccess'])->name('signup.success');
+
+    Route::get('/unsubscribe', [NewsletterController::class, 'showUnsubscribeForm'])->name('newsletter.unsubscribe.form');
+    Route::post('/unsubscribe', [NewsletterController::class, 'processUnsubscribe'])->name('newsletter.unsubscribe.process');
     Route::get('/unsubscribe/{email}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
 });
 
