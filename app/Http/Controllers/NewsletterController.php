@@ -38,7 +38,7 @@ class NewsletterController extends Controller
         $subscriber->percentage_alert = $validated['percentage_alert'];
         $subscriber->save();
 
-        return redirect('/success');
+        return redirect()->route('signup.success');
     }
 
     public function showSuccess()

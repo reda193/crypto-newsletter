@@ -15,8 +15,8 @@
     </div>
     @endif
     
-    <form method="post" action="{{ url('/signup') }}">
-        @csrf
+    <form method="post" action="{{ route('signup.process') }}">
+    @csrf
         
         <div class="form-group">
             <label for="name">Name:</label>

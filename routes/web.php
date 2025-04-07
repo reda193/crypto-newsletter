@@ -8,6 +8,7 @@ Route::get('/', function () {
     return redirect()->route('signup.form');
 });
 
+
 // Newsletter routes
 Route::prefix('newsletter')->group(function () {
     // Using 'signup' as alias for consistency with route names
@@ -17,3 +18,28 @@ Route::prefix('newsletter')->group(function () {
     Route::get('/unsubscribe/{email}', [NewsletterController::class, 'unsubscribe'])->name('newsletter.unsubscribe');
 });
 
+// Add these routes to your routes/web.php file
+
+// Show the password reset request form
+Route::get('/forgot-password', function () {
+    return view('auth.forgot-password');
+})->name('password.request');
+
+// Process the form submission and send reset link
+Route::post('/forgot-password', function (Request $request) {
+    // This route should handle sending the reset link email
+    // For now, we'll just redirect with a message
+    return redirect()->back()->with('status', 'Password reset link sent!');
+})->name('password.email');
+
+// Show the password reset form
+Route::get('/reset-password/{token}', function ($token) {
+    return view('auth.reset-password', ['token' => $token]);
+})->name('password.reset');
+
+// Process the new password
+Route::post('/reset-password', function (Request $request) {
+    // This route should handle the password update
+    // For now, we'll just redirect with a message
+    return redirect()->route('login')->with('status', 'Password has been reset!');
+})->name('password.update');

@@ -2,27 +2,26 @@
 
 namespace App\Mail;
 
-use App\Models\Subscriber;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class CryptoNewsletter extends Mailable
+class PasswordResetMail extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public $subscriber;
-    public $cryptos;
+    public $resetUrl;
+    public $userName;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(Subscriber $subscriber, array $cryptos)
+    public function __construct(string $resetUrl, string $userName = 'User')
     {
-        $this->subscriber = $subscriber;
-        $this->cryptos = $cryptos;
+        $this->resetUrl = $resetUrl;
+        $this->userName = $userName;
     }
 
     /**
@@ -31,7 +30,7 @@ class CryptoNewsletter extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Your Cryptocurrency Newsletter',
+            subject: 'Password Reset Request',
         );
     }
 
@@ -41,7 +40,7 @@ class CryptoNewsletter extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.crypto-newsletter',
+            view: 'emails.password-reset',
         );
     }
 
